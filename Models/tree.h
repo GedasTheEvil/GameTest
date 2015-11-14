@@ -1,0 +1,64 @@
+#ifndef Tree
+#define Tree
+
+float TreeVertex[] = {
+	0.000000, 0.372119, -0.107699,
+ 	0.000000, 0.372119, 0.092301,
+ 	0.000000, 0.020193, 0.092301,
+ 	0.000000, 0.372119, -0.107699,
+ 	0.000000, 0.020193, 0.092301,
+ 	0.000000, 0.020193, -0.107699,
+ 	0.100000, 0.372119, -0.007699,
+ 	-0.100000, 0.372119, -0.007699,
+ 	-0.100000, 0.020193, -0.007699,
+ 	0.100000, 0.372119, -0.007699,
+ 	-0.100000, 0.020193, -0.007699,
+ 	0.100000, 0.020193, -0.007699,
+ };
+
+float TreeNormals[] = {
+	1.000000, 0.000000, 0.000000,
+ 	1.000000, 0.000000, 0.000000,
+ 	1.000000, 0.000000, 0.000000,
+ 	1.000000, 0.000000, 0.000000,
+ 	1.000000, 0.000000, 0.000000,
+ 	1.000000, 0.000000, 0.000000,
+ 	0.000000, 0.000000, 1.000000,
+ 	0.000000, 0.000000, 1.000000,
+ 	0.000000, 0.000000, 1.000000,
+ 	0.000000, 0.000000, 1.000000,
+ 	0.000000, 0.000000, 1.000000,
+ 	0.000000, 0.000000, 1.000000,
+ };
+
+float TreeTexCord[] = {
+	1.000000, 0.997004,
+ 	0.007813, 0.997004,
+ 	0.007813, 0.000000,
+ 	1.000000, 0.997004,
+ 	0.007813, 0.000000,
+ 	1.000000, 0.000000,
+ 	0.996094, 0.993098,
+ 	0.000000, 0.993098,
+ 	0.000000, 0.000000,
+ 	0.996094, 0.993098,
+ 	0.000000, 0.000000,
+ 	0.996094, 0.000000,
+ };
+
+#define kTreeNumberOfVertices	12
+void ShowTree()
+{
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glEnableClientState(GL_NORMAL_ARRAY);
+	glVertexPointer(  3, GL_FLOAT, 0, &TreeVertex [0]);
+	glNormalPointer(     GL_FLOAT, 0, &TreeNormals[0]);
+	glTexCoordPointer(2, GL_FLOAT, 0, &TreeTexCord[0]);
+	glDrawArrays(GL_TRIANGLES, 0, kTreeNumberOfVertices);
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glDisableClientState(GL_NORMAL_ARRAY);
+}
+ #endif
+
