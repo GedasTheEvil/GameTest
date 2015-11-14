@@ -1,0 +1,32 @@
+##RPG-FPS by Gedas The Evil
+CC=gcc
+RM=rm -f
+CFLAGS= -c -Wall
+# LDFLAGS= -lX11 -lGLU -lGL -lglut -L/usr/X11R6/lib -I/usr/include/SDL -D_GNU_SOURCE=1 -D_REENTRANT -L/usr/lib -lSDL -lSDL_mixer
+
+LDFLAGS= -lGLU -lGL -lglut 
+
+SOURCES=AI.c building_inside.c conf.c credits.c events.c Exit.c game.c inventory.c items.c keyboard.c loading.c menu_conf.c  menu_game.c menu_main.c mouse.c passage.c player.c quests.c scene.c sceneSetup.c shoot.c sounds.c stats.c text.c TextInput.c textures.c vars.c ./Models/anubitas.c ./Models/anubitas_w1.c ./Models/anubitas_w2.c ./Models/spider2.c ./Models/spider2w1.c ./Models/spider2a1.c ./Maps/land1.c ./Models/temple.c game_over.c ./Maps/Dungeon0.c ./Maps/Dungeon0Pass.c ./Maps/Dungeon0Mobs.c ./Maps/Dungeon0Items.c game_win.c
+
+HEADERS= AI.h building_inside.h conf.h credits.h events.h Exit.h game.h inventory.h items.h keyboard.h loading.h menu_conf.h  menu_game.h menu_main.h mouse.h passage.h player.h quests.h scene.h sceneSetup.h shoot.h sounds.h stats.h text.h TextInput.h textures.h vars.h ./Models/anubitas.h ./Models/anubitas_w1.h ./Models/anubitas_w2.h ./Models/spider2.h ./Models/spider2w1.h ./Models/spider2a1.h ./Maps/land1.h ./Models/temple.h game_over.h ./Maps/Dungeon0.h ./Maps/Dungeon0Pass.h ./Maps/Dungeon0Mobs.h ./Maps/Dungeon0Items.h game_win.h ./Maps/atmo.h  ./Maps/dungeon1.h ./Maps/water.h ./Models/arrow.h  ./Models/bezier.h  ./Models/fountain1.h  ./Models/house1.h  ./Models/padestal.h  ./Models/ship.h  ./Models/signpost.h  ./Models/tavern.h  ./Models/tree1.h  ./Models/tree2.h ./Models/tree.h  ./Models/well.h
+
+OBJECTS=$(SOURCES:.c=.o)
+
+EXECUTABLE=play.exe
+
+
+
+all: $(SOURCES) $(EXECUTABLE)
+	
+$(EXECUTABLE): $(OBJECTS) 
+	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
+
+.c.o:
+	$(CC) $(CFLAGS) $< -o $@
+
+clean:
+	rm -f $(OBJECTS)
+
+del_src:
+	rm -f $(SOURCES) $(HEADERS)
+
