@@ -53,6 +53,7 @@ set(
 )
 
 add_executable(play.exe ${GAME_SOURCES})
+
 target_link_libraries(
         play.exe
         m
@@ -62,3 +63,5 @@ target_link_libraries(
         SDL
         SDL_mixer
 )
+
+set(EXECUTABLE_OUTPUT_PATH "../")

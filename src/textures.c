@@ -262,6 +262,8 @@ Image* allocateBitmap(char filename[])
         exit(0);
     }
 
+    image->data = NULL;
+
     if (!ImageLoad(filename, image)) {
         printf("Failed to allocate image '%s'\n", filename);
     }
@@ -364,7 +366,7 @@ void LoadGLTexturesHigh() {
     image[textureIndex++] = allocateBitmap("./Textures/High/Objects/tavern.bmp");
     image[textureIndex++] = allocateBitmap("./Textures/High/Objects/arrow.bmp");
     image[textureIndex++] = allocateBitmap("./Textures/High/Objects/spider.bmp");
-    image[textureIndex++] = allocateBitmap("./Textures/High/Objects/dung1E.bmp");
+    image[textureIndex] = allocateBitmap("./Textures/High/Objects/dung1E.bmp");
 
 //----------------------------------------------------------------------------------------------------------------	
 
