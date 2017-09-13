@@ -6,8 +6,8 @@
 short LoadTGA(TextureImage *texture, char *filename);
 int ImageLoad(char *filename, Image *image);
 int ImageLoad32(char *filename, Image *image);
-GLvoid LoadGLTexturesLow(GLvoid);
-GLvoid LoadGLTexturesHigh(GLvoid);
+void LoadGLTexturesLow();
+void LoadGLTexturesHigh();
 void LoadIntefaceTex();
 void LoadItems();
 

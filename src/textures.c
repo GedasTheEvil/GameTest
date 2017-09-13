@@ -19,13 +19,13 @@ short LoadTGA(TextureImage *texture, char *filename)			// Loads A TGA File Into 
 	{
 		if (file != NULL)							// Did The File Even Exist? *Added Jim Strong*
 			fclose(file);							// If Anything Failed, Close The File
-		
+
 		return false;								// Return False
 	}
 
 	texture->width  = header[1] * 256 + header[0];					// Determine The TGA Width	(highbyte*256+lowbyte)
 	texture->height = header[3] * 256 + header[2];					// Determine The TGA Height	(highbyte*256+lowbyte)
-                                                	
+
  	if(	texture->width	<=0	||						// Is The Width Less Than Or Equal To Zero
 		texture->height	<=0	||						// Is The Height Less Than Or Equal To Zero
 		(header[4]!=24 && header[4]!=32))					// Is The TGA 24 or 32 Bit?
@@ -47,7 +47,7 @@ short LoadTGA(TextureImage *texture, char *filename)			// Loads A TGA File Into 
 		{
 			free(texture->imageData);								// If So, Release The Image Data
 			texture->imageData = NULL;
-		}		
+		}
 
 		fclose(file);												// Close The File
 		return false;												// Return False
@@ -71,7 +71,7 @@ short LoadTGA(TextureImage *texture, char *filename)			// Loads A TGA File Into 
 	glBindTexture(GL_TEXTURE_2D, texture[0].texID);				// Bind Our Texture
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);	// Linear Filtered
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);	// Linear Filtered
-	
+
 	if (texture[0].bpp==24)											// Was The TGA 24 Bits
 	{
 		type=GL_RGB;												// If So Set The 'type' To GL_RGB
@@ -272,8 +272,8 @@ Image* allocateBitmap(char filename[])
 }
 
 
-GLvoid LoadGLTexturesLow(GLvoid) {
-	
+void LoadGLTexturesLow() {
+
 //-----------------------------------------------------------------------------------------------------------
 	// Stores the texture
 	Image *image[texcount];
@@ -305,7 +305,7 @@ GLvoid LoadGLTexturesLow(GLvoid) {
 
 	// create Texture
     glGenTextures(texcount, &texture[0]);
-    glGenTextures(atexcount, &atexture[0]);	
+    glGenTextures(atexcount, &atexture[0]);
 //------------------------------------------------------------------------------------------------------------------------
     // texturos is image'u
     	int j = 0;
@@ -336,8 +336,8 @@ GLvoid LoadGLTexturesLow(GLvoid) {
 }
 
 
-GLvoid LoadGLTexturesHigh(GLvoid) {
-	
+void LoadGLTexturesHigh() {
+
 //-----------------------------------------------------------------------------------------------------------
 	// Stores the texture
 	Image *image[texcount];
@@ -370,7 +370,7 @@ GLvoid LoadGLTexturesHigh(GLvoid) {
 
 	// create Texture
     glGenTextures(texcount, &texture[0]);
-    glGenTextures(atexcount, &atexture[0]);	
+    glGenTextures(atexcount, &atexture[0]);
 //------------------------------------------------------------------------------------------------------------------------
     // texturos is image'u
     	int j = 0;
@@ -403,7 +403,7 @@ void LoadIntefaceTex()
 {
      if(!LoadTGA(&texttex, "./Textures/Font.tga"))printf("Failed to load fonts\n");
      if(!LoadTGA(&minimap, "./Textures/minimap.tga"))printf("Failed to load minimap\n");
-     
+
      LoadTGA(&Btn[BtnBG],"./Textures/Buttons/marble.tga");
      LoadTGA(&Btn[BtnLeave],"./Textures/Buttons/Btn_leave.tga");
      LoadTGA(&Btn[BtnNewGame],"./Textures/Buttons/Btn_ng.tga");
