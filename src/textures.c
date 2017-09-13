@@ -254,18 +254,19 @@ int ImageLoad32(char *filename, Image *image) {
 
 Image* allocateBitmap(char filename[])
 {
+    printf("Loading bitmap '%s'\n", filename);
     Image *image = (Image *) malloc(sizeof(Image));
 
     if (image == NULL) {
-        printf("Error allocating space for image '%s'", filename);
+        printf("Error allocating space for image '%s'\n", filename);
         exit(0);
     }
 
     if (!ImageLoad(filename, image)) {
-        printf("Failed to allocate image '%s'", filename);
+        printf("Failed to allocate image '%s'\n", filename);
     }
 
-    printf("Loaded bitmap '%s' sized %d x %d", filename, image->sizeX, image->sizeY);
+    printf("Loaded bitmap '%s' sized %d x %d\n", filename, (int)image->sizeX, (int)image->sizeY);
 
     return image;
 }
