@@ -263,6 +263,8 @@ Image* allocateBitmap(char filename[])
     }
 
     image->data = NULL;
+    image->sizeX = 0;
+    image->sizeY = 0;
 
     if (!ImageLoad(filename, image)) {
         printf("Failed to allocate image '%s'\n", filename);
