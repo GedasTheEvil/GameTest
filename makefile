@@ -16,7 +16,7 @@ EXECUTABLE=play.exe
 all: $(SOURCES) $(EXECUTABLE)
 
 $(EXECUTABLE): $(OBJECTS)
-	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
+	$(CC) $(LDFLAGS) $(OBJECTS) $(LDFLAGS) -o $@
 
 .c.o:
 	$(CC) $(CFLAGS) $< -o $@
