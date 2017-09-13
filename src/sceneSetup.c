@@ -186,14 +186,14 @@ void setupBuilding(building a)
 
 void setupLand1()
 {
-
+     LoadGLTexturesHigh();
      Make0Segment();
      CreateDungeon0();
 
      InitMobs0();
      Init0Items();
 
-     printf("setting up the map Land1 \n\n");
+     printf("setting up the map Land1... \n\n");
 
 	house[0].Norm = TempleNormals;
 	house[0].Tex  = TempleTexCord;
