@@ -219,8 +219,10 @@ int getItemGridPositionIndex(int relX, int relY)
     return INVENTORY_GRID_ITEM_ROW_LENGTH * y + x;
 }
 
-void clickItem(int button, int *clickedItem, int lastItem)
+void clickItem(int button, int *clickedItem)
 {
+    int lastItem;
+
     if (button == RMB) {
         infoItem = *clickedItem;
         infoShow = 120;
@@ -236,123 +238,40 @@ void clickItem(int button, int *clickedItem, int lastItem)
 
 void TakeItem(int x, int y, int button)
 {
-    int temp = 0x00;
-
     int relX = (int) ((float) x / (float) resX * 100);
     int relY = (int) ((float) y / (float) resY * 100);
-
-    if (button == RMB) {
-        printf("Inventory x=%d y=%d \n", relX, relY);
-    }
 
     if (relX >= INVENTORY_GRID_START_X && relX <= INVENTORY_GRID_END_X &&
         relY >= INVENTORY_GRID_START_Y && relY <= INVENTORY_GRID_END_Y) {
         int hoverItemIndex = getItemGridPositionIndex(relX, relY);
-        clickItem(button, &InvGrid[hoverItemIndex], temp);
+        clickItem(button, &InvGrid[hoverItemIndex]);
     }
 
-    //---------------------------------------------------------
-    // End of Basic inventory. Start: helmet
-    //---------------------------------------------------------
-    if (y > (int) (resY * 0.043) &&
-        y < (int) (resY * 0.157) &&
-        x > (int) (resX * 0.773) &&
-        x < (int) (resX * 0.862) &&
-        ((selectedItem >= 0x40 &&
-          selectedItem <= 0x4f) ||
-         !selectedItem)) {
-        if (button == LMB) {
-            temp = Helm;
-            Helm = selectedItem;
-            selectedItem = temp;
-            checkLevel();
-        } else if (button == RMB) {
-            infoItem = Helm;
-            infoShow = 120;
-        }
-
-    }
-    // ------------end of helmet. start boots
-    if (y > (int) (resY * 0.306) &&
-        y < (int) (resY * 0.414) &&
-        x > (int) (resX * 0.773) &&
-        x < (int) (resX * 0.862) &&
-        ((selectedItem >= 0x20 &&
-          selectedItem <= 0x2f) ||
-         !selectedItem)) {
-        if (button == LMB) {
-            temp = Boots;
-            Boots = selectedItem;
-            selectedItem = temp;
-            checkLevel();
-        } else if (button == RMB) {
-            infoItem = Boots;
-            infoShow = 120;
-        }
-
+    if (relX >= INVENTORY_SLOT_HELMET_X && relX <= INVENTORY_SLOT_HELMET_X + INVENTORY_GRID_ITEM_W &&
+        relY >= INVENTORY_SLOT_HELMET_Y && relY <= INVENTORY_SLOT_HELMET_Y + INVENTORY_GRID_ITEM_H) {
+        clickItem(button, &Helm);
     }
 
-    // ------------end of boots. start shield
-    if (y > (int) (resY * 0.174) &&
-        y < (int) (resY * 0.285) &&
-        x > (int) (resX * 0.870) &&
-        x < (int) (resX * 0.962) &&
-        ((selectedItem >= 0x70 &&
-          selectedItem <= 0x7f) ||
-         !selectedItem)) {
-        if (button == LMB) {
-            temp = RHand;
-            RHand = selectedItem;
-            selectedItem = temp;
-            checkLevel();
-        } else if (button == RMB) {
-            infoItem = RHand;
-            infoShow = 120;
-        }
-
+    if (relX >= INVENTORY_SLOT_BOOTS_X && relX <= INVENTORY_SLOT_BOOTS_X + INVENTORY_GRID_ITEM_W &&
+        relY >= INVENTORY_SLOT_BOOTS_Y && relY <= INVENTORY_SLOT_BOOTS_Y + INVENTORY_GRID_ITEM_H) {
+        clickItem(button, &Boots);
     }
-    // ------------end of shield. start armor
-    if (y > (int) (resY * 0.174) &&
-        y < (int) (resY * 0.285) &&
-        x > (int) (resX * 0.772) &&
-        x < (int) (resX * 0.858) &&
-        ((selectedItem >= 0x10 &&
-          selectedItem <= 0x1f) ||
-         !selectedItem)) {
-        if (button == LMB) {
-            temp = Armor;
-            Armor = selectedItem;
-            selectedItem = temp;
-            checkLevel();
-        } else if (button == RMB) {
-            infoItem = Armor;
-            infoShow = 120;
-        }
 
+    if (relX >= INVENTORY_SLOT_LEFT_HAND_X && relX <= INVENTORY_SLOT_LEFT_HAND_X + INVENTORY_GRID_ITEM_W &&
+        relY >= INVENTORY_SLOT_LEFT_HAND_Y && relY <= INVENTORY_SLOT_LEFT_HAND_Y + INVENTORY_GRID_ITEM_H) {
+        clickItem(button, &LHand);
     }
-    // ------------end of armor. Weapon start
-    if (y > (int) (resY * 0.174) &&
-        y < (int) (resY * 0.285) &&
-        x > (int) (resX * 0.672) &&
-        x < (int) (resX * 0.758) &&
-        ((selectedItem >= 0x01 &&
-          selectedItem <= 0x0f) ||
-         !selectedItem)) {
-        if (button == LMB) {
-            temp = LHand;
-            LHand = selectedItem;
-            selectedItem = temp;
-            checkLevel();
-        } else if (button == RMB) {
-            infoItem = LHand;
-            infoShow = 120;
-        }
 
+    if (relX >= INVENTORY_SLOT_RIGHT_HAND_X && relX <= INVENTORY_SLOT_RIGHT_HAND_X + INVENTORY_GRID_ITEM_W &&
+        relY >= INVENTORY_SLOT_RIGHT_HAND_Y && relY <= INVENTORY_SLOT_RIGHT_HAND_Y + INVENTORY_GRID_ITEM_H) {
+        clickItem(button, &RHand);
     }
-    // ------------end of Weapon.
 
+    if (relX >= INVENTORY_SLOT_TORSO_X && relX <= INVENTORY_SLOT_TORSO_X + INVENTORY_GRID_ITEM_W &&
+        relY >= INVENTORY_SLOT_TORSO_Y && relY <= INVENTORY_SLOT_TORSO_Y + INVENTORY_GRID_ITEM_H) {
+        clickItem(button, &Armor);
+    }
 }
-
 
 void GetItem(int item)
 {
@@ -375,5 +294,3 @@ void GetItem(int item)
             break;
         }
 }
-
-
