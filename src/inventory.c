@@ -1,22 +1,25 @@
 #include "inventory.h"
 
+void drawRectangle(int w, int h)
+{
+    glBegin(GL_QUADS);
+    glTexCoord2i(0, 1);
+    glVertex2i(0, 0);
+    glTexCoord2i(1, 1);
+    glVertex2i(w, 0);
+    glTexCoord2i(1, 0);
+    glVertex2i(w, h);
+    glTexCoord2i(0, 0);
+    glVertex2i(0, h);
+    glEnd();
+}
+
 void DrawItem(int ID, int x, int y)
 {
     glPushMatrix();
     glBindTexture(GL_TEXTURE_2D, Itm[ID].texID);
     glTranslatef(x, y, 0.1);
-    glBegin(GL_QUADS);// bg
-    {
-        glTexCoord2i(0, 1);
-        glVertex2i(0, 0);    // Texture / Vertex Coord (Bottom Left)
-        glTexCoord2i(1, 1);
-        glVertex2i(64, 0);    // Texutre / Vertex Coord (Bottom Right)
-        glTexCoord2i(1, 0);
-        glVertex2i(64, 64);    // Texture / Vertex Coord (Top Right)
-        glTexCoord2i(0, 0);
-        glVertex2i(0, 64);    // Texture / Vertex Coord (Top Left)
-    }
-    glEnd();
+    drawRectangle(INVENTORY_GRID_ITEM_W, INVENTORY_GRID_ITEM_H);
     glPopMatrix();
 }
 
@@ -58,150 +61,81 @@ void DrawItemInfo()
     glPopMatrix();
 }
 
+void drawInventoryButton(int buttonIndex)
+{
+    glBindTexture(GL_TEXTURE_2D, Btn[buttonIndex].texID);
+    drawRectangle(16, 5);
+    glTranslated(19, 0, 0);
+}
+
 void DrawInventory()
 {
+    int yItem = 100 - INVENTORY_GRID_ITEM_H;
+    int relX = (int) ((float) mouseX / (float) resX * 100);
+    int relY = 100 - (int) ((float) mouseY / (float) resY * 100);
+
     glDisable(GL_LIGHTING);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);        // Clear The Screen And The Depth Buffer
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
 
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
-    glMatrixMode(GL_PROJECTION);                    // Select The Projection Matrix
-    glPushMatrix();                            // Store The Projection Matrix
-    glLoadIdentity();                        // Reset The Projection Matrix
-    glOrtho(0, 800, 0, 600, -1, 1);                    // Set Up An Ortho Screen
-    glMatrixMode(GL_MODELVIEW);                    // Select The Modelview Matrix
+    glMatrixMode(GL_PROJECTION);
+    glPushMatrix();
+    glLoadIdentity();
+    glOrtho(0, 100, 0, 100, -1, 1);
+    glMatrixMode(GL_MODELVIEW);
 
     glBindTexture(GL_TEXTURE_2D, Itm[0].texID);
+    drawRectangle(100, 100);
 
-    glBegin(GL_QUADS);// bg
-    {
-        glTexCoord2i(0, 1);
-        glVertex2i(0, 0);    // Texture / Vertex Coord (Bottom Left)
-        glTexCoord2i(1, 1);
-        glVertex2i(800, 0);    // Texutre / Vertex Coord (Bottom Right)
-        glTexCoord2i(1, 0);
-        glVertex2i(800, 600);    // Texture / Vertex Coord (Top Right)
-        glTexCoord2i(0, 0);
-        glVertex2i(0, 600);    // Texture / Vertex Coord (Top Left)
-    }
-    glEnd();
-
-    // Main inventory
     int kkk;
     int iii = 0;
     int jjj = 0;
 
-    if (infoShow)DrawItemInfo(infoItem);
+    if (infoShow) {
+        DrawItemInfo();
+    }
 
     for (kkk = 0x00; kkk < 30; kkk++) {
         if (InvGrid[kkk])
-            DrawItem(InvGrid[kkk], 40 + 78 * iii, 505 - 75 * jjj);
+            DrawItem(
+                InvGrid[kkk],
+                INVENTORY_GRID_START_X + INVENTORY_GRID_ITEM_W * iii,
+                yItem - INVENTORY_GRID_START_Y - INVENTORY_GRID_ITEM_H * jjj
+            );
 
         iii++;
-        if (iii >= 6) {
+        if (iii >= INVENTORY_GRID_ITEM_ROW_LENGTH) {
             iii = 0;
             jjj++;
         }
     }
-    // !Main inventory
 
     if (selectedItem) {
-        DrawItem(selectedItem, mouseX * ((float) resY / (float) resX) * 1.4, 500 - MouseY);
+        DrawItem(selectedItem, relX + INVENTORY_GRID_ITEM_W, relY - INVENTORY_GRID_ITEM_H);
     }
 
-    if (Helm)DrawItem(Helm, 625, 505);
-    if (Boots)DrawItem(Boots, 625, 350);
-    if (RHand)DrawItem(RHand, 700, 428);
-    if (LHand)DrawItem(LHand, 545, 428);
-    if (Armor)DrawItem(Armor, 625, 428);
+    if (Helm)DrawItem(Helm, INVENTORY_SLOT_HELMET_X, yItem - INVENTORY_SLOT_HELMET_Y);
+    if (Boots)DrawItem(Boots, INVENTORY_SLOT_BOOTS_X, yItem - INVENTORY_SLOT_BOOTS_Y);
+    if (RHand)DrawItem(RHand, INVENTORY_SLOT_RIGHT_HAND_X, yItem - INVENTORY_SLOT_RIGHT_HAND_Y);
+    if (LHand)DrawItem(LHand, INVENTORY_SLOT_LEFT_HAND_X, yItem - INVENTORY_SLOT_LEFT_HAND_Y);
+    if (Armor)DrawItem(Armor, INVENTORY_SLOT_TORSO_X, yItem - INVENTORY_SLOT_TORSO_Y);
 
     //text goes here
     glPushMatrix();
-    glTranslated(30, 50, 1);
-    glBindTexture(GL_TEXTURE_2D, Btn[BtnStats].texID);
-    glBegin(GL_QUADS);
-    {
-        glTexCoord2i(0, 1);
-        glVertex2i(0, 0);    // Texture / Vertex Coord (Bottom Left)
-        glTexCoord2i(1, 1);
-        glVertex2i(128, 0);    // Texutre / Vertex Coord (Bottom Right)
-        glTexCoord2i(1, 0);
-        glVertex2i(128, 32);    // Texture / Vertex Coord (Top Right)
-        glTexCoord2i(0, 0);
-        glVertex2i(0, 32);    // Texture / Vertex Coord (Top Left)
-    }
-    glEnd();
-
-    glTranslated(150, 0, 0);
-    glBindTexture(GL_TEXTURE_2D, Btn[BtnSkill].texID);
-    glBegin(GL_QUADS);
-    {
-        glTexCoord2i(0, 1);
-        glVertex2i(0, 0);    // Texture / Vertex Coord (Bottom Left)
-        glTexCoord2i(1, 1);
-        glVertex2i(128, 0);    // Texutre / Vertex Coord (Bottom Right)
-        glTexCoord2i(1, 0);
-        glVertex2i(128, 32);    // Texture / Vertex Coord (Top Right)
-        glTexCoord2i(0, 0);
-        glVertex2i(0, 32);    // Texture / Vertex Coord (Top Left)
-    }
-    glEnd();
-
-    glTranslated(150, 0, 0);
-    glBindTexture(GL_TEXTURE_2D, Btn[BtnInvent].texID);
-    glBegin(GL_QUADS);
-    {
-        glTexCoord2i(0, 1);
-        glVertex2i(0, 0);    // Texture / Vertex Coord (Bottom Left)
-        glTexCoord2i(1, 1);
-        glVertex2i(128, 0);    // Texutre / Vertex Coord (Bottom Right)
-        glTexCoord2i(1, 0);
-        glVertex2i(128, 32);    // Texture / Vertex Coord (Top Right)
-        glTexCoord2i(0, 0);
-        glVertex2i(0, 32);    // Texture / Vertex Coord (Top Left)
-    }
-    glEnd();
-
-    glTranslated(150, 0, 0);
-    glBindTexture(GL_TEXTURE_2D, Btn[BtnQuest].texID);
-    glBegin(GL_QUADS);
-    {
-        glTexCoord2i(0, 1);
-        glVertex2i(0, 0);    // Texture / Vertex Coord (Bottom Left)
-        glTexCoord2i(1, 1);
-        glVertex2i(128, 0);    // Texutre / Vertex Coord (Bottom Right)
-        glTexCoord2i(1, 0);
-        glVertex2i(128, 32);    // Texture / Vertex Coord (Top Right)
-        glTexCoord2i(0, 0);
-        glVertex2i(0, 32);    // Texture / Vertex Coord (Top Left)
-    }
-    glEnd();
-
-    glTranslated(150, 0, 0);
-    glBindTexture(GL_TEXTURE_2D, Btn[BtnLeave].texID);
-    glBegin(GL_QUADS);
-    {
-        glTexCoord2i(0, 1);
-        glVertex2i(0, 0);    // Texture / Vertex Coord (Bottom Left)
-        glTexCoord2i(1, 1);
-        glVertex2i(128, 0);    // Texutre / Vertex Coord (Bottom Right)
-        glTexCoord2i(1, 0);
-        glVertex2i(128, 32);    // Texture / Vertex Coord (Top Right)
-        glTexCoord2i(0, 0);
-        glVertex2i(0, 32);    // Texture / Vertex Coord (Top Left)
-    }
-    glEnd();
-
+    glTranslated(5, 8, 1);
+    drawInventoryButton(BtnStats);
+    drawInventoryButton(BtnSkill);
+    drawInventoryButton(BtnInvent);
+    drawInventoryButton(BtnQuest);
+    drawInventoryButton(BtnLeave);
     glPopMatrix();
 
 
-    glMatrixMode(GL_PROJECTION);                // Select The Projection Matrix
-    glPopMatrix();                        // Restore The Old Projection Matrix
-    glMatrixMode(GL_MODELVIEW);                // Select The Modelview Matrix
-
-
-
+    glMatrixMode(GL_PROJECTION);
+    glPopMatrix();
+    glMatrixMode(GL_MODELVIEW);
 
     glFlush();
     glDisable(GL_BLEND);
@@ -243,8 +177,7 @@ void TakeItem(int x, int y, int button)
 
     if (relX >= INVENTORY_GRID_START_X && relX <= INVENTORY_GRID_END_X &&
         relY >= INVENTORY_GRID_START_Y && relY <= INVENTORY_GRID_END_Y) {
-        int hoverItemIndex = getItemGridPositionIndex(relX, relY);
-        clickItem(button, &InvGrid[hoverItemIndex]);
+        clickItem(button, &InvGrid[getItemGridPositionIndex(relX, relY)]);
     }
 
     if (relX >= INVENTORY_SLOT_HELMET_X && relX <= INVENTORY_SLOT_HELMET_X + INVENTORY_GRID_ITEM_W &&
@@ -290,7 +223,6 @@ void GetItem(int item)
         if (item >= 128 && InvGrid[i] < 128)// we replace some item with quest item
         {
             InvGrid[i] = item;
-            put = 1;
             break;
         }
 }

@@ -771,9 +771,9 @@ void dDungeon(int selection)
 
      //fps mouse warp
      if(mouseX >= resX -15)
-	   glutWarpPointer(20, MouseY);
+	   glutWarpPointer(20, mouseY);
      if(mouseX <= 15)
-	   glutWarpPointer(resX -20, MouseY);
+	   glutWarpPointer(resX -20, mouseY);
      // calculate translations and rotations.
      xtrans = -xpos;
      ztrans = -zpos;
@@ -824,12 +824,12 @@ void dLand1(int selection)
 
      //fps mouse warp
      if(mouseX >= resX -15)
-	   glutWarpPointer(20, MouseY);
+	   glutWarpPointer(20, mouseY);
      if(mouseX <= 15)
-	   glutWarpPointer(resX -20, MouseY);
-     //      if(MouseY >= resY -15)
+	   glutWarpPointer(resX -20, mouseY);
+     //      if(mouseY >= resY -15)
      // 	   glutWarpPointer(mouseX, 0);
-     //      if(MouseY <= 15)
+     //      if(mouseY <= 15)
      // 	   glutWarpPointer(mouseX, resY -15);
      //eo fps mouse warp
 

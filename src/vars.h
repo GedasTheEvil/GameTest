@@ -103,7 +103,7 @@ extern int ITMindex;
 
 
      extern int mouseX;
-     extern int MouseY;
+     extern int mouseY;
      
      extern int winDemo;
      // 	!mouse

@@ -3,7 +3,7 @@
      int winDemo = 0;
      
      int mouseX;
-     int MouseY;
+     int mouseY;
      
      int ITMindex = 0;
 // 	!mouse

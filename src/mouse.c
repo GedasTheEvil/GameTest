@@ -193,7 +193,7 @@ void processMousePassiveMotion(int x, int y)
 	if (display == InventMENU || display >= DUNG1)
 	{
 	   mouseX = x;
-	   MouseY = y;
+	   mouseY = y;
 	}	
 	
 // 	if(display == QuestMENU)
