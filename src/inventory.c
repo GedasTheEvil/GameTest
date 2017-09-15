@@ -219,6 +219,21 @@ int getItemGridPositionIndex(int relX, int relY)
     return INVENTORY_GRID_ITEM_ROW_LENGTH * y + x;
 }
 
+void clickItem(int button, int *clickedItem, int lastItem)
+{
+    if (button == RMB) {
+        infoItem = *clickedItem;
+        infoShow = 120;
+    }
+
+    if (button == LMB) {
+        lastItem = selectedItem;
+        selectedItem = *clickedItem;
+        *clickedItem = lastItem;
+        checkLevel();
+    }
+}
+
 void TakeItem(int x, int y, int button)
 {
     int temp = 0x00;
@@ -230,22 +245,10 @@ void TakeItem(int x, int y, int button)
         printf("Inventory x=%d y=%d \n", relX, relY);
     }
 
-    if (relX >= INVENTORY_GRID_START_X &&
-        relX <= INVENTORY_GRID_END_X &&
-        relY >= INVENTORY_GRID_START_Y &&
-        relY <= INVENTORY_GRID_END_Y) {
+    if (relX >= INVENTORY_GRID_START_X && relX <= INVENTORY_GRID_END_X &&
+        relY >= INVENTORY_GRID_START_Y && relY <= INVENTORY_GRID_END_Y) {
         int hoverItemIndex = getItemGridPositionIndex(relX, relY);
-
-        if (button == RMB) {
-            infoItem = InvGrid[hoverItemIndex];
-            infoShow = 120;
-        }
-
-        if (button == LMB) {
-            temp = selectedItem;
-            selectedItem = InvGrid[hoverItemIndex];
-            InvGrid[hoverItemIndex] = temp;
-        }
+        clickItem(button, &InvGrid[hoverItemIndex], temp);
     }
 
     //---------------------------------------------------------
