@@ -270,9 +270,17 @@ Image* allocateBitmap(char filename[])
         printf("Failed to allocate image '%s'\n", filename);
     }
 
-    printf("Loaded bitmap '%s' sized %d x %d\n", filename, (int)image->sizeX, (int)image->sizeY);
+    printf("Loaded bitmap '%s' sized %d x %d\n", filename, image->sizeX, image->sizeY);
 
     return image;
+}
+
+void bindLinearBitmapTexture(GLuint textureIndex, Image *image)
+{
+    glBindTexture(GL_TEXTURE_2D, textureIndex);   // 2d texture (x and y size)
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR); // scale linearly when image bigger than texture
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR); // scale linearly when image smalled than texture
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, image->sizeX, image->sizeY, 0, GL_BGR, GL_UNSIGNED_BYTE, image->data);
 }
 
 
@@ -370,29 +378,22 @@ void LoadGLTexturesHigh() {
     image[textureIndex++] = allocateBitmap("./Textures/High/Objects/spider.bmp");
     image[textureIndex] = allocateBitmap("./Textures/High/Objects/dung1E.bmp");
 
-//----------------------------------------------------------------------------------------------------------------	
-
 	// create Texture
     glGenTextures(texcount, &texture[0]);
     glGenTextures(atexcount, &atexture[0]);
-//------------------------------------------------------------------------------------------------------------------------
-    // texturos is image'u
-    	int j = 0;
+
+    int j = 0;
+
 	for(j=0; j< texcount; j++)
 	{
-    	 	glBindTexture(GL_TEXTURE_2D, texture[j]);   // 2d texture (x and y size)
-   	 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR); // scale linearly when image bigger than texture
-   	 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR); // scale linearly when image smalled than texture
-   	 	glTexImage2D(GL_TEXTURE_2D, 0, 3, image[j]->sizeX, image[j]->sizeY, 0, GL_BGR, GL_UNSIGNED_BYTE, image[j]->data);
-	}//eofor
+        bindLinearBitmapTexture(texture[j], image[j]);
+	}
 
 	for(j=0; j< atexcount; j++)
 	{
-    	 	glBindTexture(GL_TEXTURE_2D, atexture[j]);   // 2d texture (x and y size)
-   	 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR); // scale linearly when image bigger than texture
-   	 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR); // scale linearly when image smalled than texture
-   	 	glTexImage2D(GL_TEXTURE_2D, 0, 3, aimage[j]->sizeX, aimage[j]->sizeY, 0, GL_BGRA, GL_UNSIGNED_BYTE, aimage[j]->data);
-	}//eofor
+        bindLinearBitmapTexture(atexture[j], aimage[j]);
+	}
+
 	LoadTGA(&insideT[0],"./Textures/High/Buildings/temple_i.tga");
 	LoadTGA(&insideT[1],"./Textures/High/Buildings/house_i.tga");
 	LoadTGA(&insideT[2],"./Textures/High/Buildings/ship_i.tga");

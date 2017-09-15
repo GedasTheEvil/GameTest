@@ -372,8 +372,8 @@ typedef struct
 //      extern int false ;
      
      struct Image {
-	   unsigned long sizeX;
-	   unsigned long sizeY;
+	   GLsizei sizeX;
+       GLsizei sizeY;
 	   char *data;
      };
      typedef struct Image Image;
