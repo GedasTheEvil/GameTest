@@ -1,5 +1,12 @@
 #include "text.h"
 
+float orthoFontSize = 1.0f;
+
+void setOrthoFontSize(float size)
+{
+	orthoFontSize = size;
+}
+
 GLvoid glPrint(GLint x, GLint y, const char *string, ...)	// Where The Printing Happens
 {
 	char		text[256];				// Holds Our String
@@ -18,6 +25,27 @@ GLvoid glPrint(GLint x, GLint y, const char *string, ...)	// Where The Printing 
 	glListBase(base-32);					// Choose The Font Set
 	glCallLists(strlen(text), GL_UNSIGNED_BYTE, text);	// Draws The Display List Text
 	glPopMatrix();						// Restore The Old Projection Matrix
+}
+
+GLvoid glPrintOrtho(GLint x, GLint y, const char *string, ...)
+{
+	char		text[256];				// Holds Our String
+	va_list		ap;					// Pointer To List Of Arguments
+	if (string == NULL)					// If There's No Text
+		return;						// Do Nothing
+
+	va_start(ap, string);					// Parses The String For Variables
+	vsprintf(text, string, ap);				// And Converts Symbols To Actual Numbers
+	va_end(ap);						// Results Are Stored In Text
+
+	glBindTexture(GL_TEXTURE_2D, texttex.texID);			// Select Our Font Texture
+	glPushMatrix();						// Store The Modelview Matrix
+	glLoadIdentity();					// Reset The Modelview Matrix
+	glTranslated(x,y,1);					// Position The Text (0,0 - Bottom Left)
+	glScalef(0.125f * orthoFontSize, 0.17f *orthoFontSize, 1.0);
+	glListBase(base-32);					// Choose The Font Set
+	glCallLists(strlen(text), GL_UNSIGNED_BYTE, text);	// Draws The Display List Text
+	glPopMatrix();
 }
 
 GLvoid BuildFont()				// Build Our Font Display List

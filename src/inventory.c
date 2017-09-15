@@ -33,31 +33,25 @@ void DrawItemInfo()
     infoShow--;
 
     glPushMatrix();
-    glTranslatef(150, 250, 0.2);
+    glTranslatef(12, 42, 0.2);
 
     glBindTexture(GL_TEXTURE_2D, Btn[BtnInfBG].texID);
-    glBegin(GL_QUADS);// bg
-    {
-        glTexCoord2i(0, 1);
-        glVertex2i(0, 0);    // Texture / Vertex Coord (Bottom Left)
-        glTexCoord2i(1, 1);
-        glVertex2i(520, 0);    // Texutre / Vertex Coord (Bottom Right)
-        glTexCoord2i(1, 0);
-        glVertex2i(520, 300);    // Texture / Vertex Coord (Top Right)
-        glTexCoord2i(0, 0);
-        glVertex2i(0, 300);    // Texture / Vertex Coord (Top Left)
-    }
-    glEnd();
-    DrawItem(infoItem, 20, 200);
-    glPrint(350, 510, "%s", List[infoItem].Name);
+    drawRectangle(64, 50);
+    DrawItem(infoItem, 3, 33);
 
-    glPrint(250, 470, "%s", List[infoItem].L1);
-    glPrint(250, 460, "%s", List[infoItem].L2);
-    glPrint(250, 440, "%s", List[infoItem].L3);
-    glPrint(250, 430, "%s", List[infoItem].L4);
-    if (List[infoItem].Armor)glPrint(250, 420, "Armor: %d", List[infoItem].Armor);
-    if (List[infoItem].Damage)glPrint(250, 410, "Damage: %d", List[infoItem].Damage);
-    glPrint(250, 400, "Value: %d gold", List[infoItem].Value);
+    glPushMatrix();
+    setOrthoFontSize(1.4);
+    glPrintOrtho(30, 85, "%s", List[infoItem].Name);
+    setOrthoFontSize(1.0);
+    glPrintOrtho(32, 78, "%s", List[infoItem].L1);
+    glPrintOrtho(32, 76, "%s", List[infoItem].L2);
+    glPrintOrtho(32, 73, "%s", List[infoItem].L3);
+    glPrintOrtho(32, 72, "%s", List[infoItem].L4);
+    if (List[infoItem].Armor)glPrintOrtho(32, 70, "Armor: %d", List[infoItem].Armor);
+    if (List[infoItem].Damage)glPrintOrtho(32, 69, "Damage: %d", List[infoItem].Damage);
+    glPrintOrtho(32, 67, "Value: %d gold", List[infoItem].Value);
+    glPopMatrix();
+
     glPopMatrix();
 }
 
@@ -113,7 +107,7 @@ void DrawInventory()
     }
 
     if (selectedItem) {
-        DrawItem(selectedItem, relX + INVENTORY_GRID_ITEM_W, relY - INVENTORY_GRID_ITEM_H);
+        DrawItem(selectedItem, relX, relY - INVENTORY_GRID_ITEM_H);
     }
 
     if (Helm)DrawItem(Helm, INVENTORY_SLOT_HELMET_X, yItem - INVENTORY_SLOT_HELMET_Y);
