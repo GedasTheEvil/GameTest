@@ -151,6 +151,15 @@ void clickItem(int button, int *clickedItem)
     }
 }
 
+void clickSpecialItem(int button, int *clickedItem, int mask)
+{
+    if (button == LMB && selectedItem != ITEM_EMPTY_ITEM && (selectedItem & mask) != selectedItem) {
+        return;
+    }
+
+    clickItem(button, clickedItem);
+}
+
 void TakeItem(int x, int y, int button)
 {
     int relX = (int) ((float) x / (float) resX * 100);
@@ -163,27 +172,27 @@ void TakeItem(int x, int y, int button)
 
     if (relX >= INVENTORY_SLOT_HELMET_X && relX <= INVENTORY_SLOT_HELMET_X + INVENTORY_GRID_ITEM_W &&
         relY >= INVENTORY_SLOT_HELMET_Y && relY <= INVENTORY_SLOT_HELMET_Y + INVENTORY_GRID_ITEM_H) {
-        clickItem(button, &Helm);
+        clickSpecialItem(button, &Helm, ITEM_MASK_HELMET);
     }
 
     if (relX >= INVENTORY_SLOT_BOOTS_X && relX <= INVENTORY_SLOT_BOOTS_X + INVENTORY_GRID_ITEM_W &&
         relY >= INVENTORY_SLOT_BOOTS_Y && relY <= INVENTORY_SLOT_BOOTS_Y + INVENTORY_GRID_ITEM_H) {
-        clickItem(button, &Boots);
+        clickSpecialItem(button, &Boots, ITEM_MASK_BOOTS);
     }
 
     if (relX >= INVENTORY_SLOT_LEFT_HAND_X && relX <= INVENTORY_SLOT_LEFT_HAND_X + INVENTORY_GRID_ITEM_W &&
         relY >= INVENTORY_SLOT_LEFT_HAND_Y && relY <= INVENTORY_SLOT_LEFT_HAND_Y + INVENTORY_GRID_ITEM_H) {
-        clickItem(button, &LHand);
+        clickSpecialItem(button, &LHand, ITEM_MASK_WEAPON);
     }
 
     if (relX >= INVENTORY_SLOT_RIGHT_HAND_X && relX <= INVENTORY_SLOT_RIGHT_HAND_X + INVENTORY_GRID_ITEM_W &&
         relY >= INVENTORY_SLOT_RIGHT_HAND_Y && relY <= INVENTORY_SLOT_RIGHT_HAND_Y + INVENTORY_GRID_ITEM_H) {
-        clickItem(button, &RHand);
+        clickSpecialItem(button, &RHand, ITEM_MASK_SHIELD);
     }
 
     if (relX >= INVENTORY_SLOT_TORSO_X && relX <= INVENTORY_SLOT_TORSO_X + INVENTORY_GRID_ITEM_W &&
         relY >= INVENTORY_SLOT_TORSO_Y && relY <= INVENTORY_SLOT_TORSO_Y + INVENTORY_GRID_ITEM_H) {
-        clickItem(button, &Armor);
+        clickSpecialItem(button, &Armor, ITEM_MASK_ARMOR);
     }
 }
 

@@ -3,6 +3,23 @@
 
 #include "inventory.h"
 
+#define ITEM_EMPTY_ITEM 0x00
+#define ITEM_MASK_WEAPON 0x0f
+#define ITEM_MASK_ARMOR 0x10
+#define ITEM_MASK_BOOTS 0x20
+#define ITEM_MASK_HELMET 0x40
+#define ITEM_MASK_SHIELD 0x70
+
+// 0x01 -- 0x0f Weapons
+// 0x10 -- 0x1f Armor
+// 0x20 -- 0x2f Boots
+// 0x30 -- 0x3f Cloaks
+// 0x40 -- 0x4f Helmets
+// 0x50 -- 0x5f Amulets
+// 0x60 -- 0x6f Rings
+// 0x70 -- 0x7f Shields
+// 0x80 -- 0x9f Quest items
+
 void InitItemList();
 
 #endif
