@@ -168,10 +168,8 @@ void processMousePassiveMotion(int x, int y)
     if (display >= DUNG1) {
         yrot = getMouseDegree(x, resX, -360.0f);
         dx = x;
-        lookupdown += (y - dy) * 0.1;
+        lookupdown = getMouseDegree(y, resY, 110.0f) - 60.0f;
         dy = y;
-        if (lookupdown > 60)lookupdown = 60;
-        if (lookupdown < -60)lookupdown = -60;
     }
 
     if (display == HouseInside) {
