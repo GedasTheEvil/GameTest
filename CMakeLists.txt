@@ -50,6 +50,7 @@ set(
         ./Maps/Dungeon0Mobs.c
         ./Maps/Dungeon0Items.c
         src/game_win.c
+        src/shapes.c
 )
 
 add_executable(play.exe ${GAME_SOURCES})

@@ -5,7 +5,6 @@
 #include "textures.h"
 #include "player.h"
 
-extern GLint fontSize;
 GLvoid glPrint(GLint x, GLint y, const char *string, ...);
 GLvoid glPrintOrtho(GLint x, GLint y, const char *string, ...);
 GLvoid BuildFont();
